@@ -1,0 +1,6 @@
+*.html
+*.sw[op]
+node_modules/
+dist/
+*.zip
+.idea/
