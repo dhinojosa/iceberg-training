@@ -1,0 +1,63 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== ACID Transactions
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== What are ACID Transactions?
+
+ACID is an acronym that describes the key properties guaranteed by database transactions::
+
+* Atomicity
+* Consistency
+* Isolation
+* Durability
+
+=== ACID Properties Explained
+
+[cols="1b,4",options="header"]
+|===
+| Property | Description
+| Atomicity | All operations in a transaction succeed or they all fail (all-or-nothing)
+| Consistency | Data remains in a consistent state before and after transaction
+| Isolation | Concurrent transactions don't interfere with each other
+| Durability | Once committed, changes are permanent even if system fails
+|===
+
+=== Why ACID Matters in Iceberg
+
+* Ensures data reliability and consistency
+* Prevents data corruption during concurrent operations
+* Maintains data integrity during system failures
+* Supports multi-table transactions within same catalog
+
+=== Data Lakes and ACID Transactions
+
+* Traditional data lakes typically do not support ACID transactions
+* Most data lakes only provide eventual consistency
+* Common issues include:
+** Partial file writes
+** Concurrent write conflicts
+** No rollback capabilities
+* Modern Data Lake systems like Iceberg add ACID guarantees
+
+// In the weeds here
+
+=== ACID Transactions Across Catalogs
+
+* Currently not supported across different catalog implementations
+* Each catalog maintains its own transaction context
+* Key limitations:
+** No atomic commits across catalogs
+** No distributed rollback capability
+** Potential consistency issues
+
+=== Cross-Catalog Operations Best Practices
+
+* Keep related tables in the same catalog
+* Use staging tables for cross-catalog operations
+* Implement application-level transaction management
+* Consider using change data capture (CDC) patterns
+
+
+

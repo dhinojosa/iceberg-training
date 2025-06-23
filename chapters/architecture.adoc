@@ -1,0 +1,41 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Iceberg Architecture
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Catalog Services
+
+* Manages table locations and metadata pointers
+* Types: Hive, REST, AWS Glue, Nessie
+* Handles concurrent access and updates
+* Provides table schema evolution
+
+=== Metadata Files
+
+* Contains table schema and partition layout
+* Tracks snapshot information
+* Maintains column-level statistics
+* References manifest lists
+
+=== Manifest Lists
+
+* Index for manifest files
+* Tracks added/existing/deleted files
+* Contains partition summaries
+* Enables efficient pruning
+
+=== Manifest Files
+
+* Lists data files for each partition
+* Stores file-level metadata
+* Contains partition data
+* Tracks data file changes
+
+=== Data Files
+
+* Stores actual table data
+* Formats: Parquet, ORC, Avro
+* Contains column-level statistics
+* Immutably once written
+

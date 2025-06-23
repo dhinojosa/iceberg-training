@@ -1,0 +1,26 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Compacting
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Compacting
+
+Compacting in Apache Iceberg is the process of combining smaller data files into larger ones to optimize read performance and reduce metadata overhead.
+
+==== Why Compacting is Necessary
+
+* Reduces the total number of data files in a table
+* Improves query performance by minimizing file open operations
+* Decreases metadata size and processing overhead
+* Optimizes storage costs and system resources
+* Helps maintain consistent file sizes for better I/O efficiency
+
+==== How Compacting is Done
+
+* Through Spark SQL using `REWRITE DATA` command
+* Via programmatic API calls in Spark, Flink, or other engines
+* Can be scheduled as maintenance jobs
+* Supports both bin-packing and sort-based strategies
+* Allows specification of target file size and sort orders
+* Preserves snapshot isolation during a compaction process

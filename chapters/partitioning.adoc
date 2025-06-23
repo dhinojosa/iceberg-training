@@ -1,0 +1,37 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Partitioning
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Partitioning
+
+* Partitioning in Iceberg is declarative and type-safe
+* Supports hidden partitioning (consumers don't need partition knowledge)
+* Maintains partition evolution without data migration
+* Stores partition values using correct types (not just strings)
+
+==== Partition Types
+
+* Identity partitioning (direct column values)
+* Transform partitioning:
+** Year, month, day from timestamps
+** Hour from timestamps
+** Truncate on numbers or strings
+** Bucket transform for scaling
+
+==== Partition Features
+
+* Supports multiple partition fields
+* Automatic partition pruning during queries
+* Schema evolution without partition changes
+* No need for partition folder management
+* Built-in partition validation and verification
+
+==== Partition Benefits
+
+* Improved query performance through data skipping
+* Efficient metadata filtering
+* Reduced storage costs through better organization
+* Simplified partition management
+* Compatible with multiple storage formats

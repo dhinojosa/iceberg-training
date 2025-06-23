@@ -1,0 +1,22 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Joins
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Same Catalog Joins
+
+* Standard SQL JOIN syntax works with Iceberg tables in the same catalog
+* Supports all join types: `INNER`, `LEFT`, `RIGHT`, `FULL OUTER`, `CROSS`
+* Join conditions can use any column from participating tables
+* Optimize joins by aligning partition strategies between tables
+* Leverage Iceberg's metadata for efficient join planning
+
+=== Cross-Catalog Joins
+
+* Use fully qualified table names including catalog: `catalog_name.database.table`
+* Cross-catalog joins require proper catalog configurations in your engine
+* Support varies by query engine (Spark, Trino, etc.)
+* May need additional access permissions for both catalogs
+* Performance considerations when joining across different storage locations
+

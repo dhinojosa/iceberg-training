@@ -16,5 +16,5 @@ image_array_list=(${(s: :)image_text_list})
 rm -f $basename.zip
 
 pushd ..
-zip -r "$basename/$basename.zip" ${image_array_list} $basename/$basename.html $basename/*.css $basename/lab_book.html
+zip -r "$basename/$basename.zip" ${image_array_list} $basename/$basename.html $basename/training-styles/*.css $basename/lab_book.html
 popd || exit

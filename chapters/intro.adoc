@@ -1,78 +1,95 @@
-== Introduction to Main
+ifndef::imagesdir[:imagesdir: ../images]
 
-=== Bullet List
+[.chapter]
+== Apache Iceberg
+image::iStock-1181695869.jpg[background, size=cover]
 
-* Main is an open source end-to-end test runner
-* Main is a JavaScript Alternative to Java's Selenium
+=== What is Apache Iceberg
 
-[.columns]
-=== Multicolumn
-[.column]
---
-* One
-* Two
-* Three
---
+* Apache Iceberg is an open table format for huge analytic datasets
+* It was originally developed by Netflix and later donated to Apache Software Foundation
 
-[.column]
---
-* Four
-* Five
---
+=== Features of Apache Iceberg
 
-=== View Table
+* Schema evolution
+* Hidden partitioning
+* Time travel capabilities
+* ACID transactions
+* Rolling back to previous versions
 
-[cols="6a*", options="header", stripes="even"]
-|===
-|Subdomain type|	Competitive advantage|	Complexity	|Volatility	 |Implementation	| Problem
-|Core	       | Yes  | High	| High	  | In-house	                                | Interesting
-|Generic	   | No	  | High	| Low	  | Buy/adopt	                                | Solved
-|Supporting	   | No	  | Low	    |  Low	  | In-house/outsource                           | Obvious
-|===
+=== What does it solve that others can't?
 
-=== Some code
+Previously this was done by Hive Tables, but some issues were::
 
-[source, sh, subs="attributes,quotes,verbatim"]
-----
-$ yes, code!
-----
+* Partition layout issues
+* Schema evolution limitations
+* Performance with many partitions
 
-=== Images
+=== What is an Open Table Format?
 
-image::stop.png[]
+* An open table format is a specification that defines how data is stored, organized, and managed in a table-based structure.
+* It provides a standard way to store and access data independently of the processing engine or platform being used.
 
-=== Attribution
+=== What does Open Table Format Provide?
 
-* One
-* Two
-* Three
+* Platform independence—works across different computing engines
+* Specification transparency—openly documented format that anyone can implement
+* Metadata management—defines how table metadata is stored and updated
+* Data organization—specifies how files are structured and managed
+* Schema handling—provides rules for schema definition and evolution
+* Transaction support—defines how concurrent operations are handled
+* Version control—enables tracking changes and managing table history
+* Community-driven—developed and maintained through open collaboration
 
-[.listingblock]
---
-Source: Some Book
---
+=== Types of Compute Engines
 
-=== Quote
+Works with multiple compute engines including::
 
-.Bob Box, Some Event, 2022
-____
-"Models shouldn’t necessarily be big or small. Models need to be useful."
-____
+* Apache Spark
+* Apache Flink
+* Apache Hive
+* Presto/Trino
 
-=== Keyboard & Menu & Button
+=== Types of Storage
 
-* Hit kbd:[CTRL+A]
-* Go to menu:File[Save > As PDF]
-* Press btn:[OK]
+Supports multiple storage locations::
+* S3 (including Min.io)
+* HDFS
+* Azure Blob Storage
+* Google Cloud Storage
 
-=== Admonitions
+=== Competitors
 
-NOTE: This is a note
+==== Comparison with Other Table Formats
 
-TIP: This is a tip
+Apache Hive::
+* Traditional table format for Hadoop
+* Limited schema evolution capabilities
+* Manual partition management required
+* No ACID transactions in default configuration
+* Performance issues with many partitions
 
-IMPORTANT: This is important
+Delta Lake::
+* Developed by Databricks
+* Built primarily for Spark
+* Provides ACID transactions
+* Schema enforcement and evolution
+* Time travel capabilities
+* Limited support for non-Spark engines
 
-CAUTION: This is a caution
+Apache Hudi::
+* Developed by Uber
+* Supports incremental processing
+* Provides upsert capabilities
+* Complex architecture
+* Steeper learning curve
+* Limited multi-engine support
 
-WARNING: This is a warning
+Apache Iceberg::
+* Engine-agnostic design
+* Advanced schema evolution
+* Hidden partitioning
+* Full ACID compliance
+* Extensive time travel support
+* Simple architecture
+* Strong consistency guarantees

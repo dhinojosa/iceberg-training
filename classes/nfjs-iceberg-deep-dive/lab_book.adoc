@@ -1,9 +1,6 @@
-= Main Labs
+= Apache Iceberg Lab Book
 Daniel Hinojosa
-:backend: deckjs
-:deckjs_transition: fade
 :navigation:
-:deckjs_theme: ascdoc
 :split:
 :source-highlighter: pygments
 :pygments-style: friendly
@@ -20,6 +17,8 @@ Daniel Hinojosa
 
 include::labs/install.adoc[]
 
-include::labs/initialize.adoc[]
+include::labs/inserts.adoc[]
 
-include::labs/run.adoc[]
+include::labs/streaming.adoc[]
+
+include::labs/streaming.adoc[]

@@ -1,0 +1,118 @@
+= TODO
+Daniel Hinojosa
+
+== Setup
+
+. Go to _docker-compose.yaml_ and start the architecture. Notice:
+.. Kafka for real-time data processing
+.. Flink for streaming processing
+.. Iceberg for cataloging data with time
+.. Min.io for S3 Storage
+. Setup and static inserts into Iceberg tables
+. Streaming writes with Flink and Kafka
+. Time travel and snapshot rollback
+. Compaction and file optimization
+. Schema evolution in action
+. Joining Iceberg tables (e.g., orders with customers or demographics)
+. Querying from Jupyter via Trino (data science workflow)
+. (Optional) Merge CDC data into Iceberg
+. (Optional) Snapshot expiration and optimization operations
+
+== Setup and static inserts into Iceberg tables
+
+. Verify the content in Min.io
+. Verify
+
+== Streaming writes with Flink and Kafka
+
+=== Verifying Schema on Write
+
+=== Trying to Violate the Schema
+
+=== Time travel and snapshot rollback
+
+=== Prove ACID Transactions
+
+== Changing the Schema Over Time
+
+== Viewing Partitions
+
+== Querying Apache Iceberg Across Multiple Catalogs
+
+== Placing the Catalog in Open Metadata
+
+== Using Spark
+
+== Using Dremio
+
+== Using Trino
+
+== Bringing it into ML for Data Scientist
+
+== TODO:
+
+. What does Hive have to do with everything
+. Multi-table joins
+. CDC Merge
+. What is up with the Rest Engine
+
+== Apache Iceberg Workshop Outline
+
+=== Foundations and Motivation
+
+* What is Apache Iceberg?
+* What is Iceberg used for?
+* What Iceberg is not
+* Where Iceberg fits in the modern data architecture
+** Post-processing OLAP workloads
+** Data Mesh endpoints
+* Why Iceberg is necessary
+** Limitations of Hive tables and schema-on-read
+** Need for ACID guarantees and auditability
+
+=== Core Concepts
+
+* What is a Table Format?
+** Differences between Hive, Delta Lake, Hudi, and Iceberg
+* Iceberg Architecture and Components
+** Catalog (Hive, REST, Glue, Nessie)
+** Metadata file
+** Manifest list
+** Manifest file
+** Data files (Parquet, ORC, Avro)
+
+=== Reliability and Operations
+
+* ACID guarantees and snapshot isolation
+* Time travel and rollback mechanics
+* Compaction strategies
+* Schema evolution
+** Adding, renaming, dropping columns
+* (Optional) Partition evolution and hidden partitioning
+
+=== Ecosystem Integration
+
+* Integration with processing/query engines
+** Spark
+** Flink (writes and streaming ingestion)
+** Trino (reads and discovery)
+** Briefly: Presto, Hive, Dremio, DuckDB
+* Storage backends: S3, GCS, HDFS
+* File formats supported: Parquet, ORC, Avro
+
+=== Hands-On Labs
+
+. Setup and static inserts into Iceberg tables
+. Streaming writes with Flink and Kafka
+. Time travel and snapshot rollback
+. Compaction and file optimization
+. Schema evolution in action
+. Joining Iceberg tables (e.g., orders with customers or demographics)
+. Querying from Jupyter via Trino (data science workflow)
+. (Optional) Merge CDC data into Iceberg
+. (Optional) Snapshot expiration and optimization operations
+
+=== Closing and Q&A
+
+* Summary of Iceberg’s role in modern data platforms
+* How to explore further with Trino, OpenMetadata, and Data Mesh

@@ -1,0 +1,47 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Change Data Capture (CDC)
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== What is Change Data Capture?
+
+* A design pattern that tracks and captures changes in data
+* Monitors `INSERT`, `UPDATE`, and `DELETE` operations
+* Records the complete history of data modifications
+* Enables real-time data synchronization
+
+=== CDC Use Cases
+
+* Data replication and synchronization
+* Event-driven architectures
+* Audit trails and compliance
+* Real-time analytics
+* Microservices data consistency
+
+=== CDC Implementation Patterns
+
+[cols="1,2",options="header"]
+|===
+| Pattern | Description
+| Trigger-based | Uses database triggers to capture changes
+| Log-based | Reads database transaction logs
+| Timestamp-based | Polls for records based on timestamp
+| Version-based | Tracks changes using version numbers
+|===
+
+=== CDC in Apache Iceberg
+
+* Uses Row-level Change Data as a first-class feature
+* Tracks changes through metadata and snapshots
+* Implements Position Delete Files for tracking deletions
+* Enables Equality Delete Files for row-level changes
+
+=== How Iceberg Implements CDC
+
+* Maintains snapshot history for all table changes
+* Records metadata for each modification in manifest files
+* Enables time travel queries to access historical data
+* Provides change data through SQL extensions (`CHANGES`, `AS OF`)
+* Supports streaming ingestion of change data
+

@@ -1,0 +1,46 @@
+= Apache Iceberg
+Daniel Hinojosa
+:icons: font
+:imagesdir: ./images
+:star: *
+:starline: *_
+:starstar: **
+:underscore: _
+:toc: left
+:backend: revealjs
+:customcss: training-styles/custom.css
+:topic: state=title
+:title-slide-background-image: iStock-1181695869.jpg
+:lt: <
+:gt: >
+:revealjs_hash: true
+:source-highlighter: highlightjs
+:highlightjs-theme: training-styles/color-brewer.css
+:highlightjs-languages: rust, swift
+:experimental:
+:revealjs_theme: white
+
+include::chapters/intro.adoc[]
+
+include::chapters/architecture.adoc[]
+
+include::chapters/catalog-services.adoc[]
+
+[.columns]
+== Lab: Installing
+
+[.column]
+--
+image::legolab.jpg[]
+--
+
+[.column]
+--
+Let's run docker-compose with all the necessary components
+--
+
+include::chapters/partitioning.adoc[]
+
+[.chapter]
+== Querying
+image::iStock-1075835580.jpg[background, size=cover]

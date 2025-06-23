@@ -1,0 +1,77 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Schemas
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Evolution of Schema Management
+
+=== Traditional Data Warehouses (Schema-on-Write)
+
+* Strict schema enforcement during data ingestion
+* Data cleaned and transformed before storage
+* High upfront processing costs
+* Limited flexibility for schema changes
+* Better query performance due to optimized storage
+
+=== Data Lakes (Schema-on-Read)
+
+* Raw data stored without schema enforcement
+* Schema applied only when reading data
+* Faster data ingestion
+* More flexible for changing requirements
+* Higher query-time processing overhead
+* Potential data quality issues
+
+=== Apache Iceberg (Modern Schema-on-Write)
+
+* Schema enforcement during writing but with evolution support
+* Atomic schema changes without table locks
+* Built-in schema version control
+* Efficient query performance
+* Support for complex data types
+* Compatible with multiple processing engines
+
+=== Schema Evolution Fundamentals
+
+* Tables track the full schema history
+* Multiple schema versions can coexist
+* Forward and backward compatibility
+* No table rewrites required
+* Schema changes are atomic operations
+
+=== Schema Evolution Operations
+
+* Add new columns (nullable or with defaults)
+* Rename existing columns
+* Reorder columns
+* Promote types (widening conversions)
+* Update column types with compatible changes
+* Drop columns (soft delete)
+
+=== Schema Evolution Compatibility Rules
+
+* Integer widening (`int` -> `long`)
+* Decimal precision widening
+* String type updates (`string` -> `varchar`)
+* Struct field additions
+* List and map value type updates
+* Optional field additions
+* Required fields cannot be nullable
+
+=== Schema Evolution Constraints
+
+* Changes must be compatible with existing data
+* Cannot arbitrarily reorganize schema structure
+* Must maintain backward compatibility
+* Schema changes are additive by default
+
+=== Incompatible Schema Changes
+
+* Type narrowing (`long` -> `int`)
+* Changing required fields to optional
+* Removing or renaming required columns
+* Incompatible type changes (`string` -> `int`)
+* Changing array/map key types
+* Modifying nested struct ordering
+

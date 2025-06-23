@@ -1,0 +1,54 @@
+ifndef::imagesdir[:imagesdir: ../images]
+
+[.chapter]
+== Catalog Services
+image::iStock-1181695869.jpg[background, size=cover]
+
+=== Catalog Service
+
+A catalog service is the backing implementation that knows how to::
+* Resolve logical table names
+* Manage metadata pointers
+* Handle commits/updates safely
+* Enable multi-engine access
+
+=== Types of Catalog in Iceberg
+
+[cols="1,2,4", options="header"]
+|===
+| Catalog Type     | What It Uses                         | When to Use
+
+| REST Catalog
+| A stateless HTTP server + object store
+| Great for multi-engine, containerized setups (like Docker Compose).
+Easy to secure and scale. Engine-neutral.
+
+| Hive Catalog
+| Hive Metastore (HMS)
+| Common in legacy Hadoop/Spark setups.
+Can reuse existing infrastructure.
+
+| Glue Catalog
+| AWS Glue Data Catalog
+| Native for AWS environments.
+Serverless, IAM-integrated.
+|===
+
+=== Types of Catalog in Iceberg (Continued)
+
+[cols="1,2,4", options="header"]
+|===
+| Catalog Type     | What It Uses                         | When to Use
+| Nessie Catalog
+| Git-like versioned catalog (via REST)
+| When you want branching, versioning, and promotion (like Git for data).
+
+| Hadoop Catalog
+| Stores metadata in file system paths
+| Not shared across engines. Unsafe for multi-writer setups.
+
+| In-memory Catalog
+| Temporary in-memory storage
+| Not persistent. Demo-only.
+|===
+

@@ -1,20 +1,12 @@
+ifndef::imagesdir[:imagesdir: ../images]
 == Lab: Install
 
-=== Figure Out the OS you're using
+=== Install
 
-* One
-* Two
+. Go to _docker-compose.yaml_ and start the architecture. Notice:
+.. Kafka for real-time data processing
+.. Flink for streaming processing
+.. Iceberg for cataloging data with time
+.. Min.io for S3 Storage
 
-=== Install these components
-
-* Docker
-* Select the Kubernetes Option
-
-=== Run the following command
-
-[source, sh, subs="attributes,quotes,verbatim"]
-----
-$ install.sh --verify
-----
-
-image::stop.png[width=15%, height=15%, align=center]
+image::stop.png[align=center, width=10%, height=10%]
