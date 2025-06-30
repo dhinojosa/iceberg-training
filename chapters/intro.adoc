@@ -58,18 +58,18 @@ Supports multiple storage locations::
 * Azure Blob Storage
 * Google Cloud Storage
 
-=== Competitors
+=== Comparison with Other Table Formats
 
-==== Comparison with Other Table Formats
+=== Apache Hive
 
-Apache Hive::
 * Traditional table format for Hadoop
 * Limited schema evolution capabilities
 * Manual partition management required
 * No ACID transactions in default configuration
 * Performance issues with many partitions
 
-Delta Lake::
+=== Delta Lake
+
 * Developed by Databricks
 * Built primarily for Spark
 * Provides ACID transactions
@@ -77,7 +77,8 @@ Delta Lake::
 * Time travel capabilities
 * Limited support for non-Spark engines
 
-Apache Hudi::
+=== Apache Hudi
+
 * Developed by Uber
 * Supports incremental processing
 * Provides upsert capabilities
@@ -85,7 +86,8 @@ Apache Hudi::
 * Steeper learning curve
 * Limited multi-engine support
 
-Apache Iceberg::
+=== Apache Iceberg
+
 * Engine-agnostic design
 * Advanced schema evolution
 * Hidden partitioning
