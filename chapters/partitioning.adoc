@@ -11,7 +11,7 @@ image::iStock-1181695869.jpg[background, size=cover]
 * Maintains partition evolution without data migration
 * Stores partition values using correct types (not just strings)
 
-==== Partition Types
+=== Partition Types
 
 * Identity partitioning (direct column values)
 * Transform partitioning:
@@ -20,7 +20,7 @@ image::iStock-1181695869.jpg[background, size=cover]
 ** Truncate on numbers or strings
 ** Bucket transform for scaling
 
-==== Partition Features
+=== Partition Features
 
 * Supports multiple partition fields
 * Automatic partition pruning during queries
@@ -28,7 +28,7 @@ image::iStock-1181695869.jpg[background, size=cover]
 * No need for partition folder management
 * Built-in partition validation and verification
 
-==== Partition Benefits
+=== Partition Benefits
 
 * Improved query performance through data skipping
 * Efficient metadata filtering
