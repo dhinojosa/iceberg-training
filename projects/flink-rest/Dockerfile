@@ -15,8 +15,12 @@ RUN echo "Add Flink S3 Plugin" && \
 RUN echo "-> Install JARs: AWS / Hadoop S3" && \
     curl -fL -o /opt/flink/lib/hadoop-aws-3.4.1.jar \
       https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.4.1/hadoop-aws-3.4.1.jar && \
-    curl -fL -o /opt/flink/lib/aws-java-sdk-bundle-1.12.79.jar \
-      https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/1.12.79/aws-java-sdk-bundle-1.12.79.jar
+    curl -fL -o /opt/flink/lib/awscore-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/awscore/2.31.76/awscore-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/sdk-core-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/sdk-core/2.31.76/sdk-core-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/s3-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/s3/2.31.76/s3-2.31.76.jar
 
 # Hadoop dependencies directly to lib
 RUN curl -fL -o /opt/flink/lib/commons-configuration2-2.1.1.jar \
