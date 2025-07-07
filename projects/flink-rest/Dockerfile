@@ -1,5 +1,7 @@
 FROM flink:1.20-scala_2.12-java17
 
+COPY shared-conf/config.yaml /opt/conf/
+
 USER flink
 
 # Iceberg + Flink runtime
@@ -10,17 +12,31 @@ RUN echo "-> Install JARs: Dependencies for Iceberg" && \
 
 RUN echo "Add Flink S3 Plugin" && \
     mkdir /opt/flink/plugins/s3-fs-hadoop && \
-    cp /opt/flink/opt/flink-s3-fs-hadoop-*.jar /opt/flink/plugins/s3-fs-hadoop/
+    cp /opt/flink/opt/flink-s3-fs-hadoop-1.20.1.jar /opt/flink/plugins/s3-fs-hadoop/
 
 RUN echo "-> Install JARs: AWS / Hadoop S3" && \
     curl -fL -o /opt/flink/lib/hadoop-aws-3.4.1.jar \
       https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/3.4.1/hadoop-aws-3.4.1.jar && \
     curl -fL -o /opt/flink/lib/awscore-2.31.76.jar \
-      https://repo1.maven.org/maven2/software/amazon/awssdk/awscore/2.31.76/awscore-2.31.76.jar && \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/aws-core/2.31.76/aws-core-2.31.76.jar && \
     curl -fL -o /opt/flink/lib/sdk-core-2.31.76.jar \
       https://repo1.maven.org/maven2/software/amazon/awssdk/sdk-core/2.31.76/sdk-core-2.31.76.jar && \
     curl -fL -o /opt/flink/lib/s3-2.31.76.jar \
-      https://repo1.maven.org/maven2/software/amazon/awssdk/s3/2.31.76/s3-2.31.76.jar
+      https://repo1.maven.org/maven2/software/amazon/awssdk/s3/2.31.76/s3-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/auth-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/auth/2.31.76/auth-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/identity-spi-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/identity-spi/2.31.76/identity-spi-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/regions-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/regions/2.31.76/regions-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/utils-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/utils/2.31.76/utils-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/http-client-spi-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/http-client-spi/2.31.76/http-client-spi-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/url-connection-client-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/url-connection-client/2.31.76/url-connection-client-2.31.76.jar && \
+    curl -fL -o /opt/flink/lib/sts-2.31.76.jar \
+      https://repo1.maven.org/maven2/software/amazon/awssdk/sts/2.31.76/sts-2.31.76.jar
 
 # Hadoop dependencies directly to lib
 RUN curl -fL -o /opt/flink/lib/commons-configuration2-2.1.1.jar \
@@ -43,3 +59,4 @@ RUN curl -fL -o /opt/flink/lib/commons-configuration2-2.1.1.jar \
       https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-client-core/3.4.1/hadoop-mapreduce-client-core-3.4.1.jar && \
      curl -fL -o /opt/flink/lib/hadoop-hdfs-3.4.1.jar \
        https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-hdfs/3.4.1/hadoop-hdfs-3.4.1.jar
+
