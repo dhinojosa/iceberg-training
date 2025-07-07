@@ -1,4 +1,0 @@
-execution:
-    type: batch
-    current-catalog: default_catalog
-    current-database: default_database

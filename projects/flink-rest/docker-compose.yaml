@@ -13,7 +13,6 @@ services:
         volumes:
             - minio-data:/data
 
-
     init-bucket:
         image: minio/mc:latest
         container_name: init-bucket
@@ -32,7 +31,7 @@ services:
         image: tabulario/iceberg-rest:1.6.0
         container_name: iceberg-rest
         environment:
-            - CATALOG_WAREHOUSE=s3://warehouse/
+            - CATALOG_WAREHOUSE=s3a://warehouse/
 #            - CATALOG_CATALOG__IMPL=org.apache.iceberg.rest.RESTCatalog
             - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
             - CATALOG_S3_ENDPOINT=http://minio:9000
@@ -46,35 +45,51 @@ services:
             - init-bucket
 
     flink-jobmanager:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: dhinojosa/flink-hadoop-minio:1.0
         container_name: flink-jobmanager
         ports:
             - "8081:8081"
         environment:
             - JOB_MANAGER_RPC_ADDRESS=flink-jobmanager
+            - HADOOP_CONF_DIR=/opt/flink/conf
+            - AWS_REGION=us-east-1
+            - AWS_ACCESS_KEY_ID=minioadmin
+            - AWS_SECRET_ACCESS_KEY=minioadmin
+            - CATALOG_S3_PATH__STYLE__ACCESS=true
+        env_file:
+            - flink.env
         command: jobmanager
         depends_on:
             - rest-catalog
 
     flink-taskmanager:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: dhinojosa/flink-hadoop-minio:1.0
         container_name: flink-taskmanager
         environment:
             - JOB_MANAGER_RPC_ADDRESS=flink-jobmanager
             - TASK_MANAGER_NUMBER_OF_TASK_SLOTS=4
+            - HADOOP_CONF_DIR=/opt/flink/conf
+            - AWS_REGION=us-east-1
+            - AWS_ACCESS_KEY_ID=minioadmin
+            - AWS_SECRET_ACCESS_KEY=minioadmin
+            - CATALOG_S3_PATH__STYLE__ACCESS=true
+        env_file:
+            - flink.env
         command: taskmanager
         depends_on:
             - flink-jobmanager
 
     flink-sql-client:
-        build:
-            context: .
-            dockerfile: Dockerfile
+        image: dhinojosa/flink-hadoop-minio:1.0
         container_name: flink-sql-client
+        environment:
+            - HADOOP_CONF_DIR=/opt/flink/conf
+            - AWS_REGION=us-east-1
+            - AWS_ACCESS_KEY_ID=minioadmin
+            - AWS_SECRET_ACCESS_KEY=minioadmin
+            - CATALOG_S3_PATH__STYLE__ACCESS=true
+        env_file:
+            - flink.env
         command: sleep infinity
         stdin_open: true
         tty: true

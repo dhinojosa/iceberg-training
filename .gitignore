@@ -5,3 +5,4 @@ dist/
 *.zip
 .idea/
 projects/shared-lib/*
+/projects/docker/resources/*
