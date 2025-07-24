@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t dhinojosa/flink-hadoop-minio:1.0 -f Dockerfile .
+docker buildx create --use && docker buildx build --platform linux/amd64,linux/arm64 -t dhinojosa/flink-hadoop-minio:1.0 --push -f Dockerfile .

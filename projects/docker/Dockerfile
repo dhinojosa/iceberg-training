@@ -1,4 +1,4 @@
-FROM flink:1.20-scala_2.12-java17
+FROM flink:1.20.2-scala_2.12-java17
 
 USER root
 
@@ -29,7 +29,7 @@ COPY resources/iceberg-flink-runtime-1.20-1.9.1.jar /opt/flink/lib/
 
 # Set up Flink S3 Hadoop plugin
 RUN mkdir -p /opt/flink/plugins/s3-fs-hadoop && \
-    cp /opt/flink/opt/flink-s3-fs-hadoop-1.20.1.jar /opt/flink/plugins/s3-fs-hadoop/
+    cp /opt/flink/opt/flink-s3-fs-hadoop-1.20.2.jar /opt/flink/plugins/s3-fs-hadoop/
 
    # Download the Iceberg AWS bundle jar for version 1.9.1
 RUN curl -fL -o /opt/flink/lib/iceberg-aws-bundle-1.9.1.jar \
