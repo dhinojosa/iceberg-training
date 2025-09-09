@@ -1,0 +1,116 @@
+services:
+    # ---------- Spark cluster ----------
+    spark:
+        image: dhinojosa/spark-iceberg:0.1
+        container_name: spark
+        command: /opt/spark/sbin/start-master.sh
+        environment:
+            - SPARK_NO_DAEMONIZE=true
+            - AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
+            - AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
+            - AWS_REGION=us-east-1
+        ports:
+            - "8080:8080"   # Spark master UI
+            - "7077:7077"   # Spark master RPC
+        networks: [ mlnet ]
+
+    spark-worker:
+        image: dhinojosa/spark-iceberg:0.1
+        container_name: spark-worker
+        depends_on: [ spark ]
+        command: /opt/spark/sbin/start-worker.sh spark://spark:7077
+        environment:
+            - SPARK_WORKER_MEMORY=2g
+            - SPARK_WORKER_CORES=2
+            - SPARK_NO_DAEMONIZE=true
+            - AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
+            - AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
+            - AWS_REGION=us-east-1
+        ports:
+            - "8081:8081"   # Spark worker UI
+        networks: [ mlnet ]
+
+    # ---------- MinIO (S3) ----------
+    minio:
+        image: quay.io/minio/minio:RELEASE.2025-07-23T15-54-02Z
+        container_name: minio
+        environment:
+            - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+            - MINIO_ROOT_PASSWORD=${MINIO_SECRET_ACCESS_KEY}
+            - MINIO_STORAGE_USE_HTTPS=false
+        command: server /data --console-address ":9001"
+        ports:
+            - "9000:9000"   # S3 API
+            - "9001:9001"   # MinIO console
+        volumes:
+            - minio_data:/data
+        networks: [ mlnet ]
+        healthcheck:
+            test: [ "CMD", "curl", "-f", "http://localhost:9000/minio/health/ready" ]
+            interval: 2s
+            timeout: 2s
+            retries: 30
+            start_period: 10s
+
+    minio-setup:
+        image: quay.io/minio/mc:RELEASE.2025-07-21T05-28-08Z
+        depends_on:
+           minio:
+               condition: service_healthy
+        environment:
+            - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
+            - MINIO_ROOT_PASSWORD=${MINIO_SECRET_ACCESS_KEY}
+        entrypoint: >
+            /bin/sh -c "
+              sleep 5 &&
+              mc alias set local http://minio:9000 minioadmin minioadmin &&
+              mc mb -p local/warehouse || true &&
+              mc policy set public local/warehouse &&
+              echo '✅ MinIO bucket \"warehouse\" is ready.'
+            "
+        networks: [ mlnet ]
+
+    # ---------- Iceberg REST Catalog ----------
+    iceberg-rest:
+        image: tabulario/iceberg-rest:1.6.0
+        container_name: iceberg-rest
+        depends_on: [ minio, minio-setup ]
+        environment:
+            - CATALOG_WAREHOUSE=s3a://warehouse/
+            # - CATALOG_CATALOG__IMPL=org.apache.iceberg.rest.RESTCatalog
+            - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
+            - CATALOG_S3_ENDPOINT=http://minio:9000
+            - AWS_ACCESS_KEY_ID=${MINIO_ACCESS_KEY}
+            - AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
+            - AWS_REGION=us-east-1
+            - CATALOG_S3_PATH__STYLE__ACCESS=true
+        ports:
+            - "8181:8181"
+        networks: [ mlnet ]
+
+    jupyter:
+        image: dhinojosa/pyspark-iceberg-notebook:0.1
+        container_name: jupyter
+        depends_on: [ spark, iceberg-rest ]
+        environment:
+            JUPYTER_ENABLE_LAB: "yes"
+            MINIO_ACCESS_KEY: ${MINIO_ACCESS_KEY}
+            MINIO_SECRET_ACCESS_KEY: ${MINIO_SECRET_ACCESS_KEY}
+            AWS_REGION: us-east-1
+            # Convenient vars for the notebook
+            ICEBERG_ENDPOINT: http://iceberg-rest:8181
+            MINIO_ENDPOINT: http://minio:9000
+        ports:
+            - "8888:8888"
+        volumes:
+            - ./notebooks:/home/jovyan/work
+        command: >
+            start-notebook.sh --ServerApp.token='' --ServerApp.password=''
+        networks: [ mlnet ]
+
+volumes:
+    minio_data:
+
+networks:
+    mlnet:
+        driver: bridge
