@@ -6,3 +6,4 @@ dist/
 .idea/
 projects/shared-lib/*
 /projects/flink-hadoop-docker/resources/*
+*-checkpoint.ipynb
