@@ -33,6 +33,17 @@ RUN set -euxo pipefail; \
     curl -fSL "https://repo1.maven.org/maven2/org/apache/iceberg/iceberg-azure-bundle/${ICEBERG_VERSION}/iceberg-azure-bundle-${ICEBERG_VERSION}.jar" \
       -o "/usr/local/spark/jars/iceberg-azure-bundle-${ICEBERG_VERSION}.jar"
 
+RUN set -euxo pipefail; \
+    HADOOP_VERSION=3.3.4 && \
+    echo "Downloading hadoop-aws-${HADOOP_VERSION}.jar" && \
+    curl -fSL "https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-aws/${HADOOP_VERSION}/hadoop-aws-${HADOOP_VERSION}.jar" \
+      -o "/usr/local/spark/jars/hadoop-aws-${HADOOP_VERSION}.jar" && \
+    AWS_BUNDLE_VERSION="1.12.698" && \
+    echo "Downloading aws-java-sdk-bundle-${AWS_BUNDLE_VERSION}.jar" && \
+    curl -fSL "https://repo1.maven.org/maven2/com/amazonaws/aws-java-sdk-bundle/${AWS_BUNDLE_VERSION}/aws-java-sdk-bundle-${AWS_BUNDLE_VERSION}.jar" \
+      -o "/usr/local/spark/jars/aws-java-sdk-bundle-${AWS_BUNDLE_VERSION}.jar" && \
+    echo "Installed: $(ls -1 ${JARS_DIR}/hadoop-aws-*.jar) and $(ls -1 ${JARS_DIR}/aws-java-sdk-bundle-*.jar)"
+
 # (Optional) extras you like:
 USER jovyan
 RUN pip install --no-cache-dir pandas numpy matplotlib
