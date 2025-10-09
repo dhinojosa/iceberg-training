@@ -1,7 +1,7 @@
 services:
     # ---------- Spark cluster ----------
     spark:
-        image: dhinojosa/spark-iceberg:0.1.1
+        image: dhinojosa/spark-iceberg:0.1.2
         container_name: spark
         command: /opt/spark/sbin/start-master.sh
         environment:
@@ -17,7 +17,7 @@ services:
         networks: [ mlnet ]
 
     spark-worker:
-        image: dhinojosa/spark-iceberg:0.1.1
+        image: dhinojosa/spark-iceberg:0.1.2
         container_name: spark-worker
         depends_on: [ spark ]
         command: /opt/spark/sbin/start-worker.sh spark://spark:7077
@@ -35,7 +35,7 @@ services:
         networks: [ mlnet ]
 
     spark-history:
-        image: dhinojosa/spark-iceberg:0.1.1
+        image: dhinojosa/spark-iceberg:0.1.2
         container_name: spark-history
         depends_on: [ minio, minio-setup ]
         command: /opt/spark/sbin/start-history-server.sh
@@ -129,7 +129,18 @@ services:
         command: >
             start-notebook.sh --ServerApp.token='' --ServerApp.password=''
         networks: [ mlnet ]
-
+    trino:
+        image: trinodb/trino:476
+        container_name: trino
+        depends_on: [ minio, iceberg-rest ]
+        ports:
+            - "8082:8080"   # Trino Web UI
+        environment:
+            AWS_ACCESS_KEY_ID: ${MINIO_ACCESS_KEY}
+            AWS_SECRET_ACCESS_KEY: ${MINIO_SECRET_ACCESS_KEY}
+        volumes:
+            - ./trino/catalog:/etc/trino/catalog
+        networks: [ mlnet ]
 volumes:
     minio_data:
 

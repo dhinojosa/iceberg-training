@@ -1,4 +1,4 @@
-FROM spark:3.5.6-scala2.12-java17-python3-ubuntu
+FROM spark:3.5.3-scala2.12-java17-python3-ubuntu
 
 ENV ICEBERG_VERSION=1.6.1
 ENV SCALA_BINARY_VERSION=2.12
