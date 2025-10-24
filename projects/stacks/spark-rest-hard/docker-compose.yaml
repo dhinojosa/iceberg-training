@@ -82,9 +82,10 @@ services:
               mc alias set local http://minio:9000 minioadmin minioadmin &&
               mc mb -p local/warehouse || true &&
               mc mb -p local/spark-events || true &&
+              mc mb -p local/spark-events/logs || true &&
               mc policy set public local/warehouse &&
               mc policy set public local/spark-events &&
-              echo '✅ MinIO bucket \"warehouse\" and \"spark-events\" are ready.'
+              echo 'MinIO buckets and prefixes ready.'
             "
         networks: [ mlnet ]
 
