@@ -1,0 +1,23 @@
+{
+    "type": "record",
+    "name": "Order",
+    "namespace": "com.evolutionnext",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string",
+            "logicalType": "UUID"
+        },
+        {
+            "name": "timestamp",
+            "type": {
+                "type": "long",
+                "logicalType": "timestamp-millis"
+            }
+        },
+        {
+            "name": "customerId",
+            "type": "int"
+        }
+    ]
+}

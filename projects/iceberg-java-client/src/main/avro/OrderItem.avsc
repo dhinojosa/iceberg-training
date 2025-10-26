@@ -1,0 +1,25 @@
+{
+    "type": "record",
+    "name": "OrderItem",
+    "namespace": "com.evolutionnext",
+    "fields": [
+        {
+            "name": "id",
+            "type": "string",
+            "logicalType": "UUID"
+        },
+        {
+            "name": "orderId",
+            "type": "string"
+        },
+        {
+            "name": "productId",
+            "type": "int"
+        },
+        {
+            "name": "quantity",
+            "type": "int"
+        }
+    ]
+}
+
