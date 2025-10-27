@@ -13,6 +13,7 @@ services:
             - "7077:7077"
         volumes:
             - ./conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         networks: [ mlnet ]
 
     spark-worker:
@@ -30,6 +31,7 @@ services:
             - "8081:8081"
         volumes:
             - ./conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         networks: [ mlnet ]
 
     spark-history:
@@ -44,6 +46,7 @@ services:
             - "18080:18080"
         volumes:
             - ./conf/spark-defaults.conf:/opt/spark/conf/spark-defaults.conf
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         networks: [ mlnet ]
 
     # ---------- MinIO (S3) ----------
@@ -103,6 +106,8 @@ services:
             - AWS_SECRET_ACCESS_KEY=${MINIO_SECRET_ACCESS_KEY}
             - AWS_REGION=us-east-1
             - CATALOG_S3_PATH__STYLE__ACCESS=true
+        volumes:
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         ports:
             - "8181:8181"
         networks: [ mlnet ]
@@ -124,6 +129,7 @@ services:
         volumes:
             - ./notebooks:/home/jovyan/work
             - ./conf/spark-defaults.conf:/usr/local/spark/conf/spark-defaults.conf
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         command: >
             start-notebook.sh --ServerApp.token='' --ServerApp.password=''
         networks: [ mlnet ]
@@ -209,8 +215,14 @@ services:
             CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-7.6.1.jar
             CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
             CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-            CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
+            CONNECT_PLUGIN_PATH: "/usr/share/confluent-hub-components"
             CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
+            HADOOP_CONF_DIR: /etc/hadoop/conf
+            AWS_REGION: us-east-1
+            AWS_ACCESS_KEY_ID: "minioadmin"
+            AWS_SECRET_ACCESS_KEY: "minioadmin"
+        volumes:
+            - ./conf/core-site.xml:/etc/hadoop/conf/core-site.xml
         networks: [ mlnet ]
 
     control-center:
