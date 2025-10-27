@@ -1,26 +1,26 @@
 package com.evolutionnext;
 
-import com.ginsberg.gatherers4j.Gatherers4j;
-import com.ginsberg.gatherers4j.ShufflingGatherer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.apache.kafka.common.serialization.IntegerSerializer;
+import org.apache.kafka.common.serialization.StringSerializer;
 
 import java.time.Instant;
-import java.util.*;
+import java.util.Properties;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-import static com.ginsberg.gatherers4j.Gatherers4j.*;
+import static com.ginsberg.gatherers4j.Gatherers4j.shuffle;
 
 public class OrderProducer {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         Properties props = new Properties();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, "io.confluent.kafka.serializers.KafkaAvroSerializer");
         props.put("schema.registry.url", "http://localhost:8099");
 
@@ -48,6 +48,7 @@ public class OrderProducer {
                 OrderItem orderItem = new OrderItem(orderItemId, orderId, p, quantity);
                 orderItemProducer.send(new ProducerRecord<>("my_order_items", orderItemId, orderItem));
             });
+            Thread.sleep(3000);
         }
 
         orderProducer.close();
