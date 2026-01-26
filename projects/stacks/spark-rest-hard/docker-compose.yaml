@@ -57,6 +57,8 @@ services:
             - MINIO_ROOT_USER=${MINIO_ACCESS_KEY}
             - MINIO_ROOT_PASSWORD=${MINIO_SECRET_ACCESS_KEY}
             - MINIO_STORAGE_USE_HTTPS=false
+            - MINIO_REGION_NAME=us-east-1
+            - MINIO_REGION=us-east-1
         command: server /data --console-address ":9001"
         ports:
             - "9000:9000"   # S3 API
@@ -83,9 +85,11 @@ services:
             /bin/sh -c "
               sleep 5 &&
               mc alias set local http://minio:9000 minioadmin minioadmin &&
-              mc mb -p local/warehouse || true &&
-              mc mb -p local/spark-events || true &&
-              mc mb -p local/spark-events/logs || true &&
+              mc mb --region us-east-1
+              mc mb -p --region us-east-1 local/warehouse || true &&
+              mc mb -p --region us-east-1 local/warehouse/e-commerce || true &&
+              mc mb -p --region us-east-1 local/spark-events || true &&
+              mc mb -p --region us-east-1 local/spark-events/logs || true &&
               mc policy set public local/warehouse &&
               mc policy set public local/spark-events &&
               echo 'MinIO buckets and prefixes ready.'
@@ -94,11 +98,11 @@ services:
 
     # ---------- Iceberg REST Catalog ----------
     iceberg-rest:
-        image: tabulario/iceberg-rest:1.6.0
+        image: apache/iceberg-rest-fixture:1.9.2
         container_name: iceberg-rest
         depends_on: [ minio, minio-setup ]
         environment:
-            - CATALOG_WAREHOUSE=s3a://warehouse/
+            - CATALOG_WAREHOUSE=s3a://warehouse/e-commerce/
             # - CATALOG_CATALOG__IMPL=org.apache.iceberg.rest.RESTCatalog
             - CATALOG_IO__IMPL=org.apache.iceberg.aws.s3.S3FileIO
             - CATALOG_S3_ENDPOINT=http://minio:9000
@@ -189,7 +193,7 @@ services:
         networks: [ mlnet ]
 
     connect:
-        image: cnfldemos/cp-server-connect-datagen:0.6.4-7.6.0
+        image: confluentinc/cp-kafka-connect:7.6.1
         hostname: connect
         container_name: connect
         depends_on:
@@ -215,7 +219,7 @@ services:
             CLASSPATH: /usr/share/java/monitoring-interceptors/monitoring-interceptors-7.6.1.jar
             CONNECT_PRODUCER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringProducerInterceptor"
             CONNECT_CONSUMER_INTERCEPTOR_CLASSES: "io.confluent.monitoring.clients.interceptor.MonitoringConsumerInterceptor"
-            CONNECT_PLUGIN_PATH: "/usr/share/confluent-hub-components"
+            CONNECT_PLUGIN_PATH: "/usr/share/java,/usr/share/confluent-hub-components"
             CONNECT_LOG4J_LOGGERS: org.apache.zookeeper=ERROR,org.I0Itec.zkclient=ERROR,org.reflections=ERROR
             HADOOP_CONF_DIR: /etc/hadoop/conf
             AWS_REGION: us-east-1
