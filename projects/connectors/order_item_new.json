@@ -14,13 +14,10 @@
         "iceberg.catalog.warehouse": "s3a://warehouse/",
         "iceberg.tables": "demo.order_items",
         "iceberg.tables.auto-create-enabled": "false",
-        "iceberg.control.commitIntervalMs": "1000",
-        "iceberg.io-impl": "org.apache.iceberg.aws.s3.S3FileIO",
-        "iceberg.s3.endpoint": "http://minio:9000",
-        "iceberg.s3.path-style-access": "true",
-        "iceberg.s3.region": "us-east-1",
-        "iceberg.catalog.client.region": "us-east-1",
-        "iceberg.s3.access-key-id": "minioadmin",
-        "iceberg.s3.secret-access-key": "minioadmin"
+        "iceberg.control.commit.interval-ms": "1000",
+        "fs.s3a.endpoint": "http://minio:9000",
+        "fs.s3a.access.key": "minioadmin",
+        "fs.s3a.secret.key": "minioadmin",
+        "fs.s3a.path.style.access": "true"
     }
 }
