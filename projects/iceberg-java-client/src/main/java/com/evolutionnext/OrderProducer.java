@@ -41,6 +41,7 @@ public class OrderProducer {
             Order order = new Order(orderId, Instant.now(), customerId);
             Set<Integer> productIds = IntStream.range(1, 100).boxed().gather(shuffle(random))
                 .limit(random.nextInt(10) + 1).collect(Collectors.toSet());
+
             orderProducer.send(new ProducerRecord<>("my_orders", orderId, order));
             productIds.forEach(p -> {
                 int quantity = random.nextInt(10) + 1;
