@@ -1,0 +1,10 @@
+== Lab: Kafka Connector To Iceberg
+
+. Go into the connector container
+. Run the following:
++
+[source,shell]
+----
+confluent-hub install iceberg/iceberg-kafka-connect:1.9.2
+----
++
